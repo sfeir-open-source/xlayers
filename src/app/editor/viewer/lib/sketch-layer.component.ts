@@ -75,7 +75,10 @@ export class SketchLayerComponent implements OnInit, AfterContentInit {
 
   offset3d = 20;
 
-  textContent;
+  textContent: string;
+
+  layerPositionX: number;
+  layerPositionY: number;
 
   constructor(public store: Store, public renderer: Renderer2, public element: ElementRef<HTMLElement>) {}
 
@@ -136,13 +139,16 @@ export class SketchLayerComponent implements OnInit, AfterContentInit {
     }
   }
 
-  resizeStart(event: ResizeEvent) {}
+  resizeStart(event: ResizeEvent) {
+    this.layerPositionX = this.layer.frame.x;
+    this.layerPositionY = this.layer.frame.y;
+  }
   resizing(event: ResizeEvent) {
     if (event.rectangle.width && (event.edges.left || event.edges.right)) {
       this.layer.frame.width = event.rectangle.width;
 
       if (typeof event.edges.left === 'number') {
-        this.layer.frame.x = event.edges.left;
+        this.layer.frame.x = this.layerPositionX + event.edges.left;
       }
     }
 
@@ -150,7 +156,7 @@ export class SketchLayerComponent implements OnInit, AfterContentInit {
       this.layer.frame.height = event.rectangle.height;
 
       if (typeof event.edges.top === 'number') {
-        this.layer.frame.y = event.edges.top;
+        this.layer.frame.y = this.layerPositionY + event.edges.top;
       }
     }
 
