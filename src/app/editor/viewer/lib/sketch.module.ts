@@ -1,4 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CoreModule } from 'src/app/core/core.module';
 import { SketchSelectedLayerDirective } from './selected-layer.directive';
