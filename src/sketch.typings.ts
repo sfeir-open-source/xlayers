@@ -17,7 +17,8 @@ declare interface SketchMSNestedSymbolOverride {
 }
 declare interface SketchMSAttributedString {
   _class: 'attributedString';
-  archivedAttributedString: SketchMSKeyValueArchive;
+  string: string;
+  archivedAttributedString?: SketchMSKeyValueArchive;
 }
 declare interface SketchMSKeyValueArchive {
   _archive: SketchMSEncodedBase64BinaryPlist;
@@ -164,13 +165,27 @@ declare interface SketchMSSharedStyle {
   objectID: string;
   name: string;
 }
+declare interface SketchMSParagraphStyle {
+  _class: 'paragraphStyle';
+  allowsDefaultTighteningForTruncation: number;
+}
+declare interface SketchMSFontAttribute {
+  _class: 'fontDescriptor';
+  _archive?: string;
+  attributes: {
+    name: string;
+    size: number;
+  };
+}
 declare interface SketchMSTextStyle {
   _class: 'textStyle';
   encodedAttributes: {
-    NSColor: SketchMSKeyValueArchive;
-    MSAttributedStringFontAttribute?: SketchMSKeyValueArchive;
+    NSColor?: SketchMSKeyValueArchive;
+    MSAttributedStringFontAttribute: SketchMSFontAttribute;
     NSParagraphStyle?: SketchMSKeyValueArchive;
-    NSKern: number;
+    NSKern?: number;
+    MSAttributedStringColorAttribute?: SketchMSColor;
+    paragraphStyle?: SketchMSParagraphStyle;
   };
 }
 declare interface SketchMSSharedStyleContainer {
@@ -228,6 +243,7 @@ declare interface SketchMSStyle {
   blur: SketchMSStyleBlur;
   reflection: SketchMSStyleReflection;
   do_objectID?: string;
+  textStyle: SketchMSTextStyle;
   _class: 'style';
   miterLimit: number;
   colorControls: SketchMSStyleColorControls;
@@ -317,6 +333,7 @@ declare interface SketchMSSymbolMaster {
   isFlippedVertical: number;
   do_objectID?: string;
   _class: 'symbolMaster';
+  attributedString: SketchMSAttributedString;
   name: string;
   layers: Array<SketchMSLayer>;
   isVisible: boolean;
@@ -395,6 +412,7 @@ declare interface SketchMSPage {
   isVisible: boolean;
   nameIsFixed: number;
   name: string;
+  attributedString: SketchMSAttributedString;
   isLocked: boolean;
   shouldBreakMaskChain: number;
   resizingConstraint: number;

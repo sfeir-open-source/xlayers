@@ -296,7 +296,7 @@ export class BinaryPropertyListParserService {
       if (intLength < 3) {
         lengthValue = this.parseUnsignedInt(this.bytes, offset + 2, offset + 2 + intLength);
       } else {
-        lengthValue = new BigInt(this.copyOfRange(this.bytes, offset + 2, offset + 2 + intLength)).intValue();
+        lengthValue = BigInt(this.copyOfRange(this.bytes, offset + 2, offset + 2 + intLength)).intValue();
       }
     }
     return [lengthValue, offsetValue];
