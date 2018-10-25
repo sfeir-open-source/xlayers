@@ -122,7 +122,12 @@ export class BinaryPropertyListParserService {
     for (let i = 0; i < rawLength; i++) {
       array[i] = raw.charCodeAt(i);
     }
-    this.content = this.doParse(array);
+    try {
+      this.content = this.doParse(array);
+    } catch (err) {
+      console.error(err);
+      this.content = {};
+    }
 
     return this.content;
   }
@@ -169,8 +174,7 @@ export class BinaryPropertyListParserService {
     console.log('magic', magic);
 
     if (!magic.startsWith('bplist') && !magic.startsWith('plist')) {
-      // throw new IllegalArgumentException(`'The given data is no binary property list. Wrong magic bytes: ${magic}`);
-      console.error(`'The given data is no binary property list. Wrong magic bytes: ${magic}`);
+      throw new IllegalArgumentException(`'The given data is no binary property list. Wrong magic bytes: ${magic}`);
     }
 
     /*
@@ -373,8 +377,7 @@ export class BinaryPropertyListParserService {
             break;
           }
           default: {
-            // throw new PropertyListFormatException(`The given binary property list contains an object of unknown type (${objType})`);
-            console.error(`The given binary property list contains an object of unknown type (${objType})`);
+            throw new PropertyListFormatException(`The given binary property list contains an object of unknown type (${objType})`);
           }
         }
         break;
