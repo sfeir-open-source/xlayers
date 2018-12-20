@@ -83,12 +83,16 @@ export class EditorComponent implements OnInit {
         this.isCodeEditor = isCodeEditor;
         if (this.isCodeEditor) {
           this.settingNavRef.close();
+        } else {
+          this.settingNavRef.open();
         }
       });
       this.store.select(UiState.isPreview).subscribe(isPreview => {
         this.preview = isPreview;
         if (this.preview) {
           this.currentLayerNavRef.open();
+        } else {
+          this.currentLayerNavRef.close();
         }
       });
       this.store.select(UiState.currentPage).subscribe(currentPage => {
@@ -185,7 +189,7 @@ export class EditorComponent implements OnInit {
     const content = await zip.generateAsync({type: 'blob'});
     FileSaver.saveAs(content, 'xLayers.zip');
   }
-
+  
   close() {
     this.store.dispatch(new ResetUiSettings());
   }
