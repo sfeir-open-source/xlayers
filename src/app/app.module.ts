@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Route, RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { HighlightModule } from 'ngx-highlightjs';
 import typescript from 'highlight.js/lib/languages/typescript';

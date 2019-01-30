@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { Renderer2 } from '@angular/core';
+import { Renderer2, Component, OnInit, Input, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'sketch-interactive-bg',

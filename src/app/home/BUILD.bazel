@@ -1,0 +1,19 @@
+load("@angular//:index.bzl", "ng_module")
+
+package(default_visibility = ["//visibility:public"])
+
+ng_module(
+    name = "ng_default_library",
+    srcs = [
+        "home.module.ts",
+    ],
+    tsconfig = ":tsconfig.app.json",
+    deps = [
+        "//landing/landing.component"
+        "//interactive-bg/interactive-bg.component"
+        "@angular//pakages/router"
+        "@angular//pakages/core"
+        "@angular//pakages/common"
+    ],
+)
+

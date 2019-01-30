@@ -1,0 +1,19 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "default_filegroup",
+    srcs = [
+      "lg.flip-circle-google-loader.gif",
+      "tiles-cubes.png",
+      "transparent-square-tiles.png",
+      "xLayers-logo.png",
+      "xlayers-bg-0.png",
+      "xlayers-bg-1.png",
+      "xlayers-bg-2.png",
+      "xlayers-bg-3-ng.png",
+      "xlayers-bg-3.png",
+      "xlayers-bg-4.png",
+      "xlayers-ui-1.png",
+      "xlayers-ui-2.png",
+    ],
+)

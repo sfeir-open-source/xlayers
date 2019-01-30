@@ -1,0 +1,17 @@
+load("@angular//:index.bzl", "ng_module")
+
+package(default_visibility = ["//visibility:public"])
+
+ng_module(
+    name = "ng_default_library",
+    srcs = [
+        "wc.template.ts",
+        "wc.component.ts",
+    ],
+    tsconfig = ":tsconfig.app.json",
+    deps = [
+        "@angular//packages/core",
+        "//src/app/editor/code-editor/editor-container/codegen/codegen.service",
+        "//src/app/editor/code-editor/editor-container/codegen/shared-codegen.service",
+    ],
+)
