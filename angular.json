@@ -7,34 +7,78 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "app",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "css"
-        }
-      },
+      "prefix": "sketch",
+      "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular/bazel:build",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "targetLabel": "//src:bundle.js",
-            "bazelCommand": "build"
+            "outputPath": "dist/html",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/manifest.json"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/jszip/dist/jszip.min.js"
+            ]
           },
           "configurations": {
             "production": {
-              "targetLabel": "//src:bundle"
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "serviceWorker": true,
+              "budgets": [
+                {
+                  "type": "bundle",
+                  "name": "vendor",
+                  "baseline": "700kb",
+                  "warning": "100kb"
+                }
+              ]
+            },
+            "hmr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
             }
           }
         },
         "serve": {
-          "builder": "@angular/bazel:build",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "targetLabel": "//src:devserver",
-            "bazelCommand": "run"
+            "browserTarget": "xlayers:build"
           },
           "configurations": {
             "production": {
-              "targetLabel": "//src:prodserver"
+              "browserTarget": "xlayers:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "xlayers:build:hmr"
             }
           }
         },
@@ -44,13 +88,6 @@
             "browserTarget": "xlayers:build"
           }
         },
-        "test": {
-          "builder": "@angular/bazel:build",
-          "options": {
-            "bazelCommand": "test",
-            "targetLabel": "//src/..."
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
@@ -58,34 +95,6 @@
               "src/tsconfig.app.json",
               "src/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "xlayers-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "prefix": "",
-      "architect": {
-        "e2e": {
-          "builder": "@angular/bazel:build",
-          "options": {
-            "bazelCommand": "test",
-            "targetLabel": "//e2e:devserver_test"
-          },
-          "configurations": {
-            "production": {
-              "targetLabel": "//e2e:prodserver_test"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]

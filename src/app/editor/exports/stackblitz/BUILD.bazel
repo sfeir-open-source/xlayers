@@ -1,0 +1,20 @@
+load("@angular//:index.bzl", "ng_module")
+
+package(default_visibility = ["//visibility:public"])
+
+ng_module(
+    name = "stackblitz",
+    srcs = [
+        "stackblitz.angular.service.ts",
+        "stackblitz.react.service.ts",
+        "stackblitz.service.ts",
+        "stackblitz.vue.service.ts",
+        "stackblitz.wc.service.ts",
+    ],
+    tsconfig = "://src:tsconfig-app",
+    deps = [
+        "//src/app/editor/code-editor/editor-container/codegen/codegen.service",
+        "//src/app/editor/exports/stackblitz/stackblitz.service",
+        "@angular//packages/core",
+    ],
+)

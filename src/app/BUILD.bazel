@@ -1,0 +1,25 @@
+load("@angular//:index.bzl", "ng_module")
+
+package(default_visibility = ["//visibility:public"])
+
+ng_module(
+    name = "app",
+    srcs = [
+        "app.component.ts",
+        "app.module.ts",
+    ],
+    tsconfig = "//src:tsconfig-app",
+    deps = [
+      "@angular//packages/common/http",
+      "@angular//packages/core",
+      "@angular//packages/platform-browser",
+      "@angular//packages/platform-browser/animations",
+      "@angular//packages/router",
+      "@angular//packages/service-worker",
+      "@angular_material//src/lib/icon",
+      "@npm//ngx-highlightjs",
+      "@npm//highlight.js",
+      "@npm//rxjs",
+      "@npm//@types",
+    ],
+)

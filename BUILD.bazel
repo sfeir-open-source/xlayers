@@ -1,7 +1,9 @@
 package(default_visibility = ["//visibility:public"])
 
-# This export allows targets in other packages to reference files that live
-# in this package.
-exports_files([
-    "tsconfig.json",
-])
+load("@build_bazel_rules_typescript//:defs.bzl", "ts_config")
+
+ts_config(
+    name = "tsconfig",
+    src = ":tsconfig.json",
+    deps = [],
+)

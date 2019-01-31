@@ -1,0 +1,17 @@
+load("@angular//:index.bzl", "ng_module")
+
+package(default_visibility = ["//visibility:public"])
+
+ng_module(
+    name = "editor-container",
+    srcs = [
+      "editor-container.component.ts",
+    ],
+    tsconfig = "://src:tsconfig-app",
+    deps = [
+        "//src/app/core/state/page.state",
+        "//src/app/editor/code-editor/editor-container/codegen/codegen.service",
+        "@angular//packages/core",
+        "@npm//@ngxs/store",
+    ],
+)

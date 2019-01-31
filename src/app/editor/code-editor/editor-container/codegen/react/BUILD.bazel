@@ -1,0 +1,16 @@
+load("@angular//:index.bzl", "ng_module")
+
+package(default_visibility = ["//visibility:public"])
+
+ng_module(
+    name = "react",
+    srcs = [
+        "react.service.ts",
+    ],
+    tsconfig = "://src:tsconfig-app",
+    deps = [
+        "@angular//packages/core",
+        "//src/app/editor/code-editor/editor-container/codegen/codegen.service",
+        "//src/app/editor/code-editor/editor-container/codegen/shared-codegen.service",
+    ],
+)

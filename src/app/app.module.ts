@@ -21,15 +21,6 @@ export const routes: Route[] = [{
   path: '**', redirectTo: '/home'
 }];
 
-export function hljsLanguages() {
-  return [
-    {name: 'typescript', func: typescript},
-    {name: 'javascript', func: javascript},
-    {name: 'scss', func: scss},
-    {name: 'vue', func: xml},
-  ];
-}
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -38,7 +29,14 @@ export function hljsLanguages() {
     NoopAnimationsModule,
     RouterModule.forRoot(routes, { useHash: true }),
     HighlightModule.forRoot({
-      languages: hljsLanguages
+      languages() {
+        return [
+          {name: 'typescript', func: typescript},
+          {name: 'javascript', func: javascript},
+          {name: 'scss', func: scss},
+          {name: 'vue', func: xml},
+        ];
+      }
     }),
     // TODO(manekinekko): enable SW support when it's stable
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })

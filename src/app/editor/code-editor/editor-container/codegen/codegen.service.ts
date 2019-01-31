@@ -5,7 +5,7 @@ import { VueCodeGenService } from './vue/vue.service';
 import { WCCodeGenService } from './wc/wc.service';
 import { Store } from '@ngxs/store';
 import { UiState } from 'src/app/core/state';
-import { environment } from 'src/environments/environment.hmr';
+import { environment } from 'src/environments/environment';
 
 declare var gtag;
 

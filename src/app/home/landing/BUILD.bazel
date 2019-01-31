@@ -1,0 +1,20 @@
+load("@angular//:index.bzl", "ng_module")
+
+package(default_visibility = ["//visibility:public"])
+
+ng_module(
+    name = "landing",
+    srcs = [
+        "landing.component.ts",
+    ],
+    assets = [
+      "landing.component.css",
+      "landing.component.html",
+    ],
+    tsconfig = "://src:tsconfig-app",
+    deps = [
+        "//src/environments",
+        "@angular//packages/core",
+    ],
+)
+

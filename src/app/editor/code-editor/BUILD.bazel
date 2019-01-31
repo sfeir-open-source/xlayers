@@ -1,0 +1,18 @@
+load("@angular//:index.bzl", "ng_module")
+
+package(default_visibility = ["//visibility:public"])
+
+ng_module(
+    name = "code-editor",
+    srcs = [
+        "code-editor.module.ts",
+    ],
+    tsconfig = "://src:tsconfig-app",
+    deps = [
+        "//src/app/core/core.module",
+        "//src/app/editor/code-editor/editor-container",
+        "//src/app/editor/code-editor/editor-container/codegen",
+        "@angular//packages/core",
+        "@npm//:ngx-highlightjs",
+    ],
+)

@@ -50,13 +50,18 @@ http_archive(
     strip_prefix = "rules_sass-%s" % RULES_SASS_VERSION,
 )
 
-# Rules for material design framework
-MATERIAL_VERSION = "7.1.1-compat-ng-7.1.3"
+# Angular material
+# NOTE: using a `7.1.1-compat-ng-7.1.3` branch of material2 on a fork here
+# since Angular and rules_typescript version under Bazel checking is too strict
+# at the moment.
+# https://github.com/gregmagolan/material2/commit/e2090864cddf926445eefd39c7e90eada107013d
+# TODO(gregmagolan): update the next release of material that is compatible with
+#   Angular 7.1.3 under Bazel
 http_archive(
     name = "angular_material",
     sha256 = "75bec457885ddf084219a9da152ff79831d84909bb036552141ca3aadee64a04",
-    strip_prefix = "material2-%s" % MATERIAL_VERSION,
-    url = "https://github.com/gregmagolan/material2/archive/%s.zip" % MATERIAL_VERSION,
+    strip_prefix = "material2-7.1.1-compat-ng-7.1.3",
+    url = "https://github.com/gregmagolan/material2/archive/7.1.1-compat-ng-7.1.3.zip",
 )
 
 ####################################
@@ -72,8 +77,7 @@ load("@build_bazel_rules_nodejs//:package.bzl", "rules_nodejs_dependencies")
 rules_nodejs_dependencies()
 
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
-# 0.18.0 is needed for .bazelignore
-check_bazel_version("0.18.0")
+check_bazel_version("0.19.0")
 node_repositories()
 yarn_install(
     name = "npm",
@@ -81,7 +85,7 @@ yarn_install(
     yarn_lock = "//:yarn.lock",
 )
 
-load("@io_bazel_rules_go//go:def.bzl", "go_rules_dependencies", "go_register_toolchains")
+load("@io_bazel_rules_go//go:def.bzl", "go_register_toolchains", "go_rules_dependencies")
 go_rules_dependencies()
 go_register_toolchains()
 
