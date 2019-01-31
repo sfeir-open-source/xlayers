@@ -2,11 +2,10 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
-    "module": "commonjs",
     "types": [
+      "sketchapp",
       "jasmine",
-      "node",
-      "sketchapp"
+      "node"
     ]
   },
   "files": [

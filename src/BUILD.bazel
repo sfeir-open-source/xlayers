@@ -1,125 +1,148 @@
 package(default_visibility = ["//visibility:public"])
 
 load("@angular//:index.bzl", "ng_module")
-load("@build_bazel_rules_typescript//:defs.bzl", "ts_config", "ts_devserver")
+load("@build_bazel_rules_typescript//:defs.bzl", "ts_library", "ts_web_test_suite")
+load("@build_bazel_rules_nodejs//:defs.bzl", "rollup_bundle", "history_server")
+load("@build_bazel_rules_nodejs//internal/web_package:web_package.bzl", "web_package")
+load("@build_bazel_rules_typescript//:defs.bzl", "ts_devserver")
+load("@io_bazel_rules_sass//:defs.bzl", "sass_binary")
 
-ts_config(
-    name = "tsconfig-spec",
-    src = "tsconfig-spec.json",
-    deps = [":tsconfig.json"],
+[
+sass_binary(
+    name = "style_" + x,
+    src = x,
+    deps = [],
 )
-
-ts_config(
-    name = "tsconfig-app",
-    src = "tsconfig.app.json",
-    deps = [":tsconfig.json"],
-)
+for x in glob(["**/*.scss"])
+]
 
 ng_module(
     name = "src",
     srcs = glob(
-        ["*.ts"],
-        exclude = ["main.ts"],
+        include = ["**/*.ts"],
+        exclude = [
+            "**/*.spec.ts",
+            "main.ts",
+            "test.ts",
+            "initialize_testbed.ts",
+        ],
     ),
-    tsconfig = ":tsconfig.json",
+    assets = glob([
+      "**/*.css",
+      "**/*.html",
+    ]) + [":style_" + x for x in glob(["**/*.scss"])],
     deps = [
-        "//src/app",
-        "@angular//packages/common/http",
-        "@angular//packages/core",
+        "@angular//packages/common",
+        "@angular//packages/forms",
+        "@angular_material//src/lib/button",
+        "@angular_material//src/lib/button-toggle",
+        "@angular_material//src/lib/card",
+        "@angular_material//src/lib/expansion",
+        "@angular_material//src/lib/icon",
+        "@angular_material//src/lib/input",
+        "@angular_material//src/lib/list",
+        "@angular_material//src/lib/menu",
+        "@angular_material//src/lib/select",
+        "@angular_material//src/lib/sidenav",
+        "@angular_material//src/lib/slide-toggle",
+        "@angular_material//src/lib/slider",
+        "@angular_material//src/lib/snack-bar",
+        "@angular_material//src/lib/tabs",
+        "@angular_material//src/lib/toolbar",
+        "@angular_material//src/lib/tooltip",
+        "@angular_material//src/lib/tree",
         "@angular//packages/platform-browser",
-        "@angular//packages/platform-browser/animations",
         "@angular//packages/router",
         "@angular//packages/service-worker",
-        "@npm//:ngx-highlightjs",
-        "@npm//:highlight.js",
+        "@npm//ngx-color",
+        "@npm//@bugsnag/js",
+        "@npm//@bugsnag/plugin-angular",
+        "@npm//@types",
     ],
 )
-
-# This devserver is written in Go and is super-fast.
-# It doesn't run any bundler or code splitter. Instead, it concatenates
-# UMD JavaScript code on-the-fly in-memory.
-# This scales really well for massive codebases.
-ts_devserver(
-    name = "devserver",
-    # serve these files rooted at /
-    additional_root_paths = [
-        "npm/node_modules/zone.js/dist",
-        "npm/node_modules/tslib",
-        "npm/node_modules/@angular/material/prebuilt-themes",
-    ],
-    # Start from the development version of the main
-    entry_module = "angular_bazel_example/src/main.dev",
-    scripts = [
-        ":require.config.js",
-        ":module-id.js",
-    ],
-    # This is the URL we'll point our <script> tag at
-    serving_path = "/bundle.min.js",
-    # Serve these files in addition to the JavaScript bundle
-    static_files = [
-        "@npm//node_modules/zone.js:dist/zone.min.js",
-        "@npm//node_modules/tslib:tslib.js",
-        "@npm//node_modules/@angular/material:prebuilt-themes/deeppurple-amber.css",
-        "index.html",
-    ],
-    # Tell Bazel to build the sources first
-    deps = ["//src"],
-)
-
-load("@build_bazel_rules_nodejs//:defs.bzl", "nodejs_binary", "rollup_bundle")
 
 rollup_bundle(
     name = "bundle",
-    # These Angular routes may be lazy-loaded at runtime.
-    # So we tell Rollup that it can put them in separate JS chunks
-    # (code-splitting) for faster application startup.
-    # In the future, we could automatically gather these from statically
-    # analyzing the Angular sources.
-    additional_entry_points = [
-        "src/app/editor/editor.module.ngfactory",
-        "src/app/home/home.module.ngfactory",
-    ],
     entry_point = "src/main.prod",
-    deps = [
-        "//src",
+    deps = ["//src"],
+)
+
+web_package(
+    name = "prodapp",
+    assets = [
+        # do not sort
+        "@npm//node_modules/zone.js:dist/zone.min.js",
+        ":bundle.min.js",
     ],
+    data = [
+        ":bundle",
+    ],
+    index_html = "index.html",
 )
-
-# Copy zone.min.js to this package.
-# Needed because the prodserver only loads static files that appear under this
-# package.
-genrule(
-    name = "copy_zonejs",
-    srcs = ["@npm//node_modules/zone.js:dist/zone.min.js"],
-    outs = ["zone.min.js"],
-    cmd = "cp $< $@",
-)
-
-# See comment for zonejs above
-genrule(
-    name = "copy_systemjs",
-    srcs = ["@npm//node_modules/systemjs:dist/system.js"],
-    outs = ["system.js"],
-    cmd = "cp $< $@",
-)
-
-# See comment for zonejs above
-genrule(
-    name = "copy_material_theme",
-    srcs = ["@npm//node_modules/@angular/material:prebuilt-themes/deeppurple-amber.css"],
-    outs = ["deeppurple-amber.css"],
-    cmd = "cp $< $@",
-)
-
-load("@build_bazel_rules_nodejs//:defs.bzl", "history_server")
 
 history_server(
     name = "prodserver",
-    data = [
+    data = [":prodapp"],
+    templated_args = ["src/prodapp"],
+)
+
+ts_devserver(
+    name = "devserver",
+    port = 4200,
+    additional_root_paths = [
+        "npm/node_modules/zone.js/dist",
+        "npm/node_modules/tslib",
+    ],
+    entry_module = "xlayers/src/main.dev",
+    serving_path = "/bundle.min.js",
+    static_files = [
+        "@npm//node_modules/zone.js:dist/zone.min.js",
+        "@npm//node_modules/tslib:tslib.js",
         "index.html",
-        ":bundle",
-        ":copy_material_theme",
-        ":copy_systemjs",
-        ":copy_zonejs",
+    ],
+    deps = [":src"],
+)
+
+ts_library(
+    name = "test_lib",
+    testonly = 1,
+    srcs = glob(["**/*.spec.ts"]),
+    deps = [
+        ":src",
+        "@angular//packages/core/testing",
+        "@npm//@types",
+    ],
+)
+
+ts_library(
+    name = "initialize_testbed",
+    testonly = 1,
+    srcs = [
+        "initialize_testbed.ts",
+    ],
+    deps = [
+        "@angular//packages/core/testing",
+        "@angular//packages/platform-browser-dynamic/testing",
+        "@npm//@types",
+    ],
+)
+
+ts_web_test_suite(
+    name = "test",
+    srcs = ["@npm//node_modules/tslib:tslib.js"],
+    runtime_deps = [
+        ":initialize_testbed",
+    ],
+    # do not sort
+    bootstrap = [
+        "@npm//node_modules/zone.js:dist/zone-testing-bundle.js",
+        "@npm//node_modules/reflect-metadata:Reflect.js",
+    ],
+    browsers = [
+        "@io_bazel_rules_webtesting//browsers:chromium-local",
+    ],
+    deps = [
+        ":test_lib",
+        "@npm//karma-jasmine",
     ],
 )
