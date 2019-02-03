@@ -11,10 +11,11 @@ ng_module(
       "landing.component.css",
       "landing.component.html",
     ],
-    tsconfig = "://src:tsconfig-app",
+    tsconfig = "//src:tsconfig-app",
     deps = [
-        "//src/environments",
+        "//src/environments:environments",
         "@angular//packages/core",
+        "@npm//@types",
     ],
 )
 

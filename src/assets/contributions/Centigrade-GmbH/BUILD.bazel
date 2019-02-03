@@ -4,7 +4,6 @@ filegroup(
     name = "default_filegroup",
     srcs = [
         "XLayersBlack.svg",
-        "bite.sh",
         "xLayersColor.svg",
         "xLayersTransparent.svg",
         "xLayersWhite.svg",

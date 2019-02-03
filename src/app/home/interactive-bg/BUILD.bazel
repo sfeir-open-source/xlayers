@@ -11,9 +11,10 @@ ng_module(
       "interactive-bg.component.css",
       "interactive-bg.component.html",
     ],
-    tsconfig = "://src:tsconfig-app",
+    tsconfig = "//src:tsconfig-app",
     deps = [
         "@angular//packages/core",
+        "@npm//@types",
     ],
 )
 

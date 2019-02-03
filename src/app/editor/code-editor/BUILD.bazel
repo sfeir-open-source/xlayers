@@ -7,12 +7,12 @@ ng_module(
     srcs = [
         "code-editor.module.ts",
     ],
-    tsconfig = "://src:tsconfig-app",
+    tsconfig = "//src:tsconfig-app",
     deps = [
-        "//src/app/core/core.module",
+        "//src/app/core:core",
         "//src/app/editor/code-editor/editor-container",
         "//src/app/editor/code-editor/editor-container/codegen",
         "@angular//packages/core",
-        "@npm//:ngx-highlightjs",
+        "@npm//ngx-highlightjs",
     ],
 )

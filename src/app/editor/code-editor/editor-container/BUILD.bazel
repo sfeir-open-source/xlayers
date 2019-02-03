@@ -7,10 +7,9 @@ ng_module(
     srcs = [
       "editor-container.component.ts",
     ],
-    tsconfig = "://src:tsconfig-app",
+    tsconfig = "//src:tsconfig-app",
     deps = [
-        "//src/app/core/state/page.state",
-        "//src/app/editor/code-editor/editor-container/codegen/codegen.service",
+        "//src/app/editor/code-editor/editor-container/codegen:codegen",
         "@angular//packages/core",
         "@npm//@ngxs/store",
     ],

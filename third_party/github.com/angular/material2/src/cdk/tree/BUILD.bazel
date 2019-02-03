@@ -1,0 +1,46 @@
+package(default_visibility=["//visibility:public"])
+
+load("//tools:defaults.bzl", "ng_module", "ng_test_library", "ng_web_test_suite",
+  "markdown_to_html")
+
+ng_module(
+  name = "tree",
+  srcs = glob(["**/*.ts"], exclude=["**/*.spec.ts"]),
+  module_name = "@angular/cdk/tree",
+  deps = [
+    "@angular//packages/common",
+    "@angular//packages/core",
+    "@rxjs",
+    "@rxjs//operators",
+    "//src/cdk/a11y",
+    "//src/cdk/bidi",
+    "//src/cdk/coercion",
+    "//src/cdk/collections",
+  ],
+)
+
+ng_test_library(
+  name = "tree_test_sources",
+  srcs = glob(["**/*.spec.ts"]),
+  deps = [
+    "@rxjs",
+    "@rxjs//operators",
+    "//src/cdk/collections",
+    ":tree",
+  ],
+)
+
+ng_web_test_suite(
+  name = "unit_tests",
+  deps = [":tree_test_sources"],
+)
+
+markdown_to_html(
+  name = "overview",
+  srcs = [":tree.md"],
+)
+
+filegroup(
+  name = "source-files",
+  srcs = glob(["**/*.ts"]),
+)

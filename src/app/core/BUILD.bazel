@@ -5,11 +5,13 @@ package(default_visibility = ["//visibility:public"])
 ng_module(
     name = "core",
     srcs = [
-        "core.module.ts",
-    ],
-    tsconfig = "://src:tsconfig-app",
+        "core.module.ts"
+    ] + glob([
+        "state/*.ts"
+    ]),
+    tsconfig = "//src:tsconfig-app",
     deps = [
-        "@angular//packages/cdk/scrolling",
+        # "@angular//cdk/scrolling",
         "@angular//packages/common",
         "@angular//packages/core",
         "@angular//packages/forms",
@@ -30,9 +32,9 @@ ng_module(
         "@angular_material//src/lib/toolbar",
         "@angular_material//src/lib/tooltip",
         "@angular_material//src/lib/tree",
-        "@angular//packages/cdk/drag-drop",
-        "@npm//:ngx-color/sketch",
-        "@npm//:@bugsnag/js",
-        "@npm//:@bugsnag/plugin-angular",
+        # "@angular//cdk/drag-drop",
+        "@npm//ngx-color",
+        "@npm//@bugsnag/js",
+        "@npm//@bugsnag/plugin-angular",
     ],
 )

@@ -57,11 +57,18 @@ http_archive(
 # https://github.com/gregmagolan/material2/commit/e2090864cddf926445eefd39c7e90eada107013d
 # TODO(gregmagolan): update the next release of material that is compatible with
 #   Angular 7.1.3 under Bazel
-http_archive(
+#MATERIAL_VERSION = "7.2.2"
+#http_archive(
+#    name = "angular_material",
+    #sha256 = "12f992f1cc4bde9d1171b9fdab9e7122b00e6034edaba410bb178eac0c578f6b",
+#    strip_prefix = "material2-%s" % MATERIAL_VERSION,
+#    url = "https://github.com/angular/material2/archive/%s.zip" % MATERIAL_VERSION,
+#)
+
+
+local_repository(
     name = "angular_material",
-    sha256 = "75bec457885ddf084219a9da152ff79831d84909bb036552141ca3aadee64a04",
-    strip_prefix = "material2-7.1.1-compat-ng-7.1.3",
-    url = "https://github.com/gregmagolan/material2/archive/7.1.1-compat-ng-7.1.3.zip",
+    path = "third_party/github.com/angular/material2",
 )
 
 ####################################

@@ -1,0 +1,69 @@
+package(default_visibility=["//visibility:public"])
+
+load("@io_bazel_rules_sass//:defs.bzl", "sass_library", "sass_binary")
+load("//tools:defaults.bzl", "ng_module", "ng_test_library", "ng_web_test_suite",
+  "markdown_to_html")
+
+ng_module(
+  name = "overlay",
+  srcs = glob(["**/*.ts"], exclude=["**/*.spec.ts"]),
+  module_name = "@angular/cdk/overlay",
+  deps = [
+    "@angular//packages/common",
+    "@angular//packages/core",
+    "@rxjs",
+    "@rxjs//operators",
+    "//src/cdk/bidi",
+    "//src/cdk/coercion",
+    "//src/cdk/keycodes",
+    "//src/cdk/platform",
+    "//src/cdk/portal",
+    "//src/cdk/scrolling",
+  ],
+)
+
+sass_library(
+  name = "overlay_scss_lib",
+  srcs = glob(["**/_*.scss"]),
+)
+
+sass_binary(
+  name = "overlay_prebuilt_scss",
+  src = "overlay-prebuilt.scss",
+  deps = [":overlay_scss_lib"]
+)
+
+ng_test_library(
+  name = "overlay_test_sources",
+  srcs = glob(["**/*.spec.ts"]),
+  deps = [
+    "@angular//packages/common",
+    "@angular//packages/common/testing",
+    "@angular//packages/platform-browser",
+    "@rxjs",
+    "@rxjs//operators",
+    "//src/cdk/bidi",
+    "//src/cdk/keycodes",
+    "//src/cdk/platform",
+    "//src/cdk/portal",
+    "//src/cdk/scrolling",
+    "//src/cdk/testing",
+    ":overlay",
+  ],
+)
+
+ng_web_test_suite(
+  name = "unit_tests",
+  deps = [":overlay_test_sources"],
+  static_css = ["overlay_prebuilt_scss"],
+)
+
+markdown_to_html(
+  name = "overview",
+  srcs = [":overlay.md"],
+)
+
+filegroup(
+  name = "source-files",
+  srcs = glob(["**/*.ts"]),
+)

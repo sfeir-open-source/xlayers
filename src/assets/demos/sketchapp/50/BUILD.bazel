@@ -1,7 +1,7 @@
 package(default_visibility = ["//visibility:public"])
 
 filegroup(
-    name = default_filegroup",
+    name = "default_filegroup",
     srcs = [
         "md-components-buttons-fabs-light.sketch",
         "md-components-buttons-lights.sketch",

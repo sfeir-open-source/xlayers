@@ -4,20 +4,13 @@ package(default_visibility = ["//visibility:public"])
 
 ng_module(
     name = "codegen",
-    srcs = [
-        "codegen.module.ts",
-        "codegen.service.spec.ts",
-        "codegen.service.ts",
-        "shared-codegen.service.ts",
-    ],
-    tsconfig = "://src:tsconfig-app",
+    srcs = glob([
+        "**/*.ts",
+    ], exclude = [
+        "**/*.spec.ts"
+    ]),
+    tsconfig = "//src:tsconfig-app",
     deps = [
-        "//src/app/editor/code-editor/editor-container/codegen/codegen.service",
-        "//src/app/editor/code-editor/editor-container/codegen/react/react.service",
-        "//src/app/editor/code-editor/editor-container/codegen/vue/vue.service",
-        "//src/app/editor/code-editor/editor-container/codegen/wc/wc.service",
-        "//src/app/editor/code-editor/editor-container/codegen/angular/angular.service",
-        "//src/app/editor/code-editor/editor-container/codegen/shared-codegen.service",
         "@angular//packages/core",
     ],
 )

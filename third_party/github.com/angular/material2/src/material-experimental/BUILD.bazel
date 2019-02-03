@@ -1,0 +1,21 @@
+package(default_visibility=["//visibility:public"])
+
+load("//tools:defaults.bzl", "ng_module", "ng_package")
+load("//:packages.bzl", "CDK_TARGETS", "ROLLUP_GLOBALS")
+
+ng_module(
+  name = "material-experimental",
+  srcs = glob(["**/*.ts"], exclude=["**/*.spec.ts"]),
+  module_name = "@angular/material-experimental",
+  deps = ["//src/lib:material"] + CDK_TARGETS,
+)
+
+ng_package(
+  name = "npm_package",
+  srcs = ["package.json"],
+  entry_point = "src/material-experimental/public_api.js",
+  globals = ROLLUP_GLOBALS,
+  deps = [":material-experimental"],
+  # TODO(devversion): re-enable once we have set up the proper compiler for the ng_package
+  tags = ["manual"],
+)

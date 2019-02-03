@@ -4,22 +4,10 @@ package(default_visibility = ["//visibility:public"])
 
 ng_module(
     name = "layer-settings",
-    srcs = [
-        "editor.component.ts",
-        "editor.module.ts",
-    ],
-    assets = [
-        "editor.component.css",
-        "editor.component.html",
-    ],
-    tsconfig = "://src:tsconfig-app",
+    srcs = glob(["**/*.ts"]),
+    tsconfig = "//src:tsconfig-app",
     deps = [
         "//src/app/core",
-        "//src/app/editor/layer-settings/settings-container",
-        "//src/app/editor/layer-settings/settings-layer-colors",
-        "//src/app/editor/layer-settings/settings-layer-position",
-        "//src/app/editor/layer-settings/settings-layer-properties",
-        "//src/app/editor/layer-settings/settings-preview",
         "@angular//packages/core",
     ],
 )
