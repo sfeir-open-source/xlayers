@@ -1,0 +1,55 @@
+{
+  "name": "xlayers-core",
+  "version": "1.0.0",
+  "homepage": "https://github.com/sfeir-open-source/xlayers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfeir-open-source/xlayers.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sfeir-open-source/xlayers/issues"
+  },
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --configuration hmr",
+    "build": "ng build --prod --stats-json",
+    "postbuild": "bash scripts/stamp-build.bash",
+    "test": "jest",
+    "test:ci": "jest --ci --updateSnapshot",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "deploy": "npm run test:ci && npm run build && firebase deploy",
+    "analyse": "webpack-bundle-analyzer ./dist/html/stats.json"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupTestFrameworkScriptFile": "./src/jest.ts"
+  },
+  "private": true,
+  "dependencies": {
+    "@bugsnag/js": "^5.1.0",
+    "@bugsnag/plugin-angular": "^5.1.0",
+    "@ngxs/store": "^3.3.0",
+    "@stackblitz/sdk": "^1.2.0",
+    "@types/file-saver": "^2.0.0",
+    "big-integer": "^1.6.41",
+    "buffer": "^5.2.1",
+    "file-saver": "^2.0.0",
+    "highlight.js": "^9.13.1",
+    "jszip": "^3.1.5",
+    "ngx-color": "^2.0.5",
+    "ngx-highlightjs": "^3.0.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^0.12.1",
+    "@angular-devkit/build-ng-packagr": "0.10.6",
+    "@angular-devkit/build-optimizer": "0.10.6",
+    "@angular-devkit/build-webpack": "0.10.6",
+    "@ngxs/devtools-plugin": "^3.3.0",
+    "@ngxs/logger-plugin": "^3.3.0",
+    "codelyzer": "~4.5.0",
+    "ng-packagr": "^4.4.0",
+    "puppeteer": "^1.10.0",
+    "tsickle": ">=0.25.5"
+  }
+}
