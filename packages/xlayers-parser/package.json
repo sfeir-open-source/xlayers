@@ -1,0 +1,16 @@
+{
+  "name": "xlayers-parser",
+  "version": "1.0.0",
+  "homepage": "https://github.com/sfeir-open-source/xlayers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfeir-open-source/xlayers.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sfeir-open-source/xlayers/issues"
+  },
+  "dependencies": {
+    "big-integer": "^1.6.41",
+		"buffer": "^5.2.1"
+  }
+}
