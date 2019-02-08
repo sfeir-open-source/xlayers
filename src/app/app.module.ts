@@ -29,14 +29,12 @@ export const routes: Route[] = [{
     NoopAnimationsModule,
     RouterModule.forRoot(routes, { useHash: true }),
     HighlightModule.forRoot({
-      languages() {
-        return [
-          {name: 'typescript', func: typescript},
-          {name: 'javascript', func: javascript},
-          {name: 'scss', func: scss},
-          {name: 'vue', func: xml},
-        ];
-      }
+      languages: () => [
+        {name: 'typescript', func: typescript},
+        {name: 'javascript', func: javascript},
+        {name: 'scss', func: scss},
+        {name: 'vue', func: xml},
+      ]
     }),
     // TODO(manekinekko): enable SW support when it's stable
     // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
