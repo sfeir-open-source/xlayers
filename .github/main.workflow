@@ -1,5 +1,5 @@
 workflow "Main" {
-  on = "push"
+  on = "push master"
   resolves = [
     "Test",
     "GitHub Action for Firebase",
